@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>IP</title>
+        </script>
+    </head>
+    <body>
+
+        <script>
+
+            async function Liked()
+            {
+                const res = await fetch('https://api.ipify.org/?format=json');
+
+                const data = await res.json();
+
+                fetch('https://prod-97.westus.logic.azure.com:443/workflows/895052e84e4b4cb08249e582eb6e373b/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=OriqAQGbaTOzYGskCyP5W_Eb1RCBWZsBGjnT_pqLIjQ',{
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        "IP_Address":
+                        [
+                            {"ip":data.ip}
+                        ]
+                    })
+                }).then(res => {
+                    return res.json()
+                })
+
+
+            }
+            
+            document.body.onload = function getIP() {
+
+                
+                Liked();
+ 
+            }
+        </script>
+    </body>
+</html>
